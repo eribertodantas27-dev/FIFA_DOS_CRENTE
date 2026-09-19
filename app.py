@@ -47,11 +47,6 @@ def standings(players,matches):
     for x in s.values(): x['sg']=x['gp']-x['gc']
     return {g:sorted([x for x in s.values() if x['group']==g],key=lambda z:(-z['pts'],-z['sg'],-z['gp'],z['name'].lower())) for g in GROUPS}
 
-@app.route('/')
-def index():
-    init_db(); settings=one('SELECT * FROM settings WHERE id=1'); players=rows("SELECT * FROM players WHERE status='approved' ORDER BY group_name,name"); matches=rows('SELECT m.*,p1.name n1,p2.name n2 FROM matches m LEFT JOIN players p1 ON p1.id=m.player1_id LEFT JOIN players p2 ON p2.id=m.player2_id WHERE m.played=1 ORDER BY m.id DESC'); groups={g:[p for p in players if p['group_name']==g] for g in GROUPS}; table=standings(players,matches)
-    return render_template('index.html',settings=settings,players=players,groups=groups,matches=matches,table=table)
-
 @app.route('/login',methods=['GET','POST'])
 def login():
     init_db()
