@@ -153,7 +153,7 @@ def update_player(pid):
             c.execute(text("DELETE FROM players WHERE id=:id"), {"id":pid})
     return redirect(url_for("admin"))
 
-@app.route("/admin/settings", methods=["POST"])
+@app.route('/admin/settings', methods=['POST'], endpoint='update_settings')
 @admin_required
 def update_settings():
     phase = request.form.get("phase")
