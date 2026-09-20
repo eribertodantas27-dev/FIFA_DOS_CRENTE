@@ -47,7 +47,7 @@ def standings(players,matches):
     for x in s.values(): x['sg']=x['gp']-x['gc']
     return {g:sorted([x for x in s.values() if x['group']==g],key=lambda z:(-z['pts'],-z['sg'],-z['gp'],z['name'].lower())) for g in GROUPS}
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login',methods=['GET','POST'])
 def login():
     init_db()
     settings = one('SELECT * FROM settings WHERE id=1')
