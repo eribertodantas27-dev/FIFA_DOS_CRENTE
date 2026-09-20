@@ -156,6 +156,19 @@ def update_player(pid):
 @app.route('/admin/settings', methods=['POST'], endpoint='update_settings')
 @admin_required
 def update_settings():
+    phase = request.form.get('phase')
+    name = request.form.get('name', 'FC Championship').strip() or 'FC Championship'
+
+    if phase not in PHASES:
+        phase = 'Fase de Grupos'
+
+    with engine.begin() as c:
+        c.execute(
+            text('UPDATE settings SET phase=:p,name=:n WHERE id=1'),
+            {'p': phase, 'n': name}
+        )
+
+    return redirect(url_for('admin'))
     phase = request.form.get("phase")
     name = request.form.get("name","FC Championship").strip() or "FC Championship"
     if phase not in PHASES:
